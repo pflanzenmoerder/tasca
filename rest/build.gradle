@@ -1,0 +1,20 @@
+apply plugin: 'jetty'
+
+dependencies {
+    compile project(':service')
+    compile libraries.'scala-library'
+    compile libraries.'scala-compiler'
+    compile libraries.'spring-aspects'
+    compile libraries.'spring-core'
+    compile libraries.'spring-scala'
+    compile libraries.'restlet'
+    compile libraries.'restlet-jaxrs'
+    compile libraries.'restlet-spring'
+    compile libraries."slf4j-api"
+    compile libraries."slf4j-log4j12"
+    compile libraries."slf4j-jcl-over-slf4j"
+}
+
+httpPort = 8080
+stopPort = 9451
+stopKey = 'foo'

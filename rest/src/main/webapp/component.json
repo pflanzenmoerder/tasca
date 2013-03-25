@@ -1,0 +1,9 @@
+{
+  "name": "myApp",
+  "version": "1.2.1",
+  "dependencies": {
+    "flight": "~1.0.0",
+    "bootstrap": "~2.2.2",
+    "require": "~2.1.4"
+  }
+}

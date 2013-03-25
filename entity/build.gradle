@@ -1,0 +1,71 @@
+import com.mysema.query.codegen.GenericExporter
+import com.mysema.query.codegen.Keywords
+import com.mysema.query.scala.ScalaEntitySerializer
+import com.mysema.query.scala.ScalaTypeMappings
+
+import javax.persistence.Embeddable
+import javax.persistence.Embedded
+import javax.persistence.Entity
+import javax.persistence.MappedSuperclass
+import javax.persistence.Transient
+
+dependencies {
+    compile libraries.'scala-library'
+    compile libraries.'scala-compiler'
+    compile libraries.'querydsl-apt'
+    compile libraries.'querydsl-codegen'
+    compile libraries.'querydsl-scala'
+    compile libraries.'jpa-api'
+}
+
+sourceSets {
+    main {
+        scala {
+            srcDirs "$buildDir/generated-src"
+        }
+    }
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath libraries.'querydsl-codegen'
+        classpath libraries.'querydsl-scala'
+        classpath libraries.'querydsl-jpa'
+        classpath libraries.'scala-library'
+        classpath libraries.'scala-compiler'
+        classpath files("${buildDir}/classes/main")
+        classpath gradleApi()
+    }
+}
+
+task gen << {
+    def exporter = new GenericExporter()
+    exporter.setKeywords(Keywords.JPA);
+    exporter.setTargetFolder(new File("$buildDir/generated-src"))
+    exporter.setSerializerClass(ScalaEntitySerializer.class)
+    exporter.setTypeMappingsClass(ScalaTypeMappings.class)
+    exporter.setEntityAnnotation(Entity.class);
+    exporter.setEmbeddableAnnotation(Embeddable.class);
+    exporter.setEmbeddedAnnotation(Embedded.class);
+    exporter.setSupertypeAnnotation(MappedSuperclass.class);
+    exporter.setSkipAnnotation(Transient.class);
+    exporter.setCreateScalaSources(true)
+    exporter.export("de")
+}
+
+task compileGenerated(type: ScalaCompile) {
+    source = file("$buildDir/generated-src")
+    destinationDir = new File("${buildDir}/classes/main")
+    scalaCompileOptions.incrementalOptions.analysisFile = new File("${buildDir}/tmp/scala/compilerAnalysis/compileCustomScala.analysis")
+    classpath = buildscript.configurations.classpath
+}
+
+gen.dependsOn(compileScala)
+compileGenerated.dependsOn(gen)
+classes.dependsOn(compileGenerated)
+
+
+

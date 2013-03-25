@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+    <import resource="classpath:service-context.xml" />
+    <context:component-scan base-package="de.codepitbull.tasca.rest"/>
+    <context:annotation-config/>
+    <!-- Restlet component -->
+    <!--<bean id="application" class="org.restlet.Application" scope="singleton">-->
+    <!--<property name="inboundRoot">-->
+        <!--<bean class="org.restlet.ext.spring.SpringRouter">-->
+            <!--<property name="attachments">-->
+                <!--<map>-->
+                    <!--<entry key="/">-->
+                        <!--<bean class="org.restlet.ext.spring.SpringFinder">-->
+                            <!--<lookup-method name="create" bean="rootResource" />-->
+                        <!--</bean>-->
+                    <!--</entry>-->
+                <!--</map>-->
+            <!--</property>-->
+        <!--</bean>-->
+    <!--</property>-->
+    <!--</bean>-->
+</beans>

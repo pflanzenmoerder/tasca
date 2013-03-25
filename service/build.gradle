@@ -1,0 +1,31 @@
+dependencies {
+    compile project(':entity')
+    compile libraries.'scala-library'
+    compile libraries.'scala-compiler'
+    compile libraries.'spring-data-jpa'
+    compile libraries.'querydsl-scala'
+    compile libraries.'querydsl-jpa'
+    compile libraries.'hibernate-c3p0'
+    compile libraries.'hibernate-entitymanager'
+    compile libraries.'h2'
+    testCompile libraries.'spring-test'
+    testCompile libraries.'junit'
+    compile libraries."slf4j-api"
+    compile libraries."slf4j-log4j12"
+    compile libraries."slf4j-jcl-over-slf4j"
+}
+
+test {
+    exclude "**/*IT.class"
+}
+
+task integrationTest(type: Test, dependsOn: testClasses) {
+    exclude "**/*Test.class"
+    include "**/*IT.class"
+}
+
+
+task(runSimple, dependsOn: 'classes', type: JavaExec) {
+    main = 'de.codepitbull.tasca.service.Main'
+    classpath = sourceSets.main.runtimeClasspath
+}
